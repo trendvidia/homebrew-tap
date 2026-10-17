@@ -11,7 +11,7 @@ conflict.
 
 ```sh
 brew install trendvidia/tap/go
-go version   # go version go1.27.2 darwin/arm64 (plus v1.27.2)
+go version   # go version go1.27.2 darwin/arm64 (plus v1.27.2a)
 ```
 
 Archives are published for darwin/arm64, linux/amd64 and linux/arm64.
