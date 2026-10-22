@@ -1,26 +1,26 @@
 class Go < Formula
   desc "Trendvidia \"plus\" fork of Go with extended -buildmode=plugin support"
   homepage "https://github.com/trendvidia/go"
-  version "1.27.3b"
+  version "1.27.3c"
   license "BSD-3-Clause"
 
   # Prebuilt toolchain archives from the release. macOS is arm64-only
   # (no Intel build is published); Linux covers arm64 and x86_64.
   on_macos do
     on_arm do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3b/go1.27.3-plus.darwin-arm64.tar.gz"
-      sha256 "43ef5959ae6e81022def04cddbea20aee6c531d4385c52cd0bd0aa04337e04fc"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.3c/go1.27.3-plus.darwin-arm64.tar.gz"
+      sha256 "dca16c249ce296cfd94e2234aadb416ebb50633090a78c63a6c54b6c559baac8"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3b/go1.27.3-plus.linux-arm64.tar.gz"
-      sha256 "6cb66b9d46d97a27f443557d2204eae0335b0d4408af98c7b0662f8ce873be2e"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.3c/go1.27.3-plus.linux-arm64.tar.gz"
+      sha256 "262ef27c39460012f4135abcbc2c1b505abd576d1ee2fb441b03fe78af3e6bb2"
     end
     on_intel do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3b/go1.27.3-plus.linux-amd64.tar.gz"
-      sha256 "16b1025596f210c67eeae0fe20db627696b7b8e78f7addf515d6ea77e965ba79"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.3c/go1.27.3-plus.linux-amd64.tar.gz"
+      sha256 "c78b9c4d6ce962a5a92b287f5d65cfb8d5d3b4053d79d37cff2dfffc96ba70ff"
     end
   end
 
@@ -44,8 +44,9 @@ class Go < Formula
   test do
     # Must be the fork toolchain, and must be THIS release. The old
     # assertion only checked for "(plus)", which any fork build satisfies,
-    # so a stale url/sha pair would still have passed. forkVersionMarker in
-    # the toolchain names the release tag, so pin to it via version.
+    # so a stale url/sha pair would still have passed. The toolchain names
+    # the release tag (PlusRelease in internal/goversion), so pin to it via
+    # version.
     assert_match "(plus v#{version})", shell_output("#{bin}/go version")
 
     (testpath/"hello.go").write <<~GO
