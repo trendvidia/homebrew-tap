@@ -28,6 +28,19 @@ A build containing `import _ "goplus"` fails on anything but the fork.
 
 Archives are published for darwin/arm64, linux/amd64 and linux/arm64.
 
+### Moving from `trendvidia/tap/go`
+
+The formula used to be called `go`. Homebrew does not move this install for
+you: a rename mapping would make it treat stock `go` as an old `go-plus` and
+refuse to install the two together. Switch by hand:
+
+```sh
+brew uninstall --force go
+brew trust --formula trendvidia/tap/go-plus   # if you trusted the old name
+brew install trendvidia/tap/go-plus
+brew install go                               # stock Go, if you want both
+```
+
 ### Updating to a new release
 
 After `release-binaries` has attached the archives to the GitHub release:
