@@ -49,3 +49,23 @@ After `release-binaries` has attached the archives to the GitHub release:
 ./update-go.sh v1.27.3e
 brew install --build-from-source trendvidia/tap/go-plus && brew test go-plus
 ```
+
+## voya
+
+[voya](https://github.com/trendvidia/voya) is a local emulator of Fly.io's
+networking model: services find each other by `.internal` name on a
+developer's machine.
+
+```sh
+brew install trendvidia/tap/voya
+voya version   # v0.3.0
+```
+
+It is built from source with Homebrew's `go`, so installing it pulls that in
+as a build dependency. On a machine still carrying the old
+`trendvidia/tap/go`, switch first (see above).
+
+### Updating to a new release
+
+Set `tag` and `revision` in `Formula/voya.rb` to the new tag and its commit.
+Use the root `vX.Y.Z` tag, not `client/` or `proto/`.
