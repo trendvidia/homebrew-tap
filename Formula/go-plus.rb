@@ -1,4 +1,4 @@
-class Go < Formula
+class GoPlus < Formula
   desc "Trendvidia \"plus\" fork of Go with extended -buildmode=plugin support"
   homepage "https://github.com/trendvidia/go"
   version "1.27.3d"
@@ -24,15 +24,16 @@ class Go < Formula
     end
   end
 
-  # Installs the same `go` and `gofmt` binaries as the upstream formula.
-  conflicts_with "go", because: "both install `go` and `gofmt` binaries"
-
   def install
     # The archive contains a top-level go/ tree (bin, pkg/tool, src, ...);
     # Homebrew strips it, so install the contents into libexec and expose
     # the tools. GOROOT is derived from the go binary's location.
     libexec.install Dir["*"]
-    bin.install_symlink Dir[libexec/"bin/*"]
+
+    # Only `goplus` is linked, so this coexists with the stock `go` formula.
+    # The real `go` and `gofmt` stay in libexec/bin, unlinked: pipelines put
+    # that directory on PATH, the same shape as coreutils' libexec/gnubin.
+    bin.install_symlink libexec/"bin/go" => "goplus"
 
     # Drop testdata carrying non-native binaries (avoids Linux patchelf
     # relocation over foreign objects), matching the upstream formula.
@@ -41,13 +42,29 @@ class Go < Formula
     rm_r(libexec/"src/debug/dwarf/testdata")
   end
 
+  def caveats
+    <<~EOS
+      Only `goplus` is linked, so this installs alongside Homebrew's `go`.
+      To make `go` and `gofmt` the fork, for a pipeline or a shell, run:
+        export PATH="#{opt_libexec}/bin:$PATH"
+    EOS
+  end
+
   test do
     # Must be the fork toolchain, and must be THIS release. The old
     # assertion only checked for "(plus)", which any fork build satisfies,
     # so a stale url/sha pair would still have passed. The toolchain names
     # the release tag (PlusRelease in internal/goversion), so pin to it via
     # version.
-    assert_match "(plus v#{version})", shell_output("#{bin}/go version")
+    assert_match "(plus v#{version})", shell_output("#{bin}/goplus version")
+
+    # Coexisting with the stock formula depends on this: linking `go` or
+    # `gofmt` would collide with it in the prefix's bin.
+    assert_equal ["goplus"], bin.children.map { |f| f.basename.to_s }
+
+    # The name pipelines rely on must work too, and find the same GOROOT.
+    assert_match "(plus v#{version})", shell_output("#{libexec}/bin/go version")
+    assert_equal shell_output("#{libexec}/bin/go env GOROOT"), shell_output("#{bin}/goplus env GOROOT")
 
     (testpath/"hello.go").write <<~GO
       package main
@@ -59,8 +76,8 @@ class Go < Formula
       }
     GO
 
-    system bin/"go", "fmt", "hello.go"
-    assert_equal "Hello World\n", shell_output("#{bin}/go run hello.go")
+    system bin/"goplus", "fmt", "hello.go"
+    assert_equal "Hello World\n", shell_output("#{bin}/goplus run hello.go")
 
     (testpath/"hello_cgo.go").write <<~GO
       package main
@@ -78,7 +95,7 @@ class Go < Formula
     GO
 
     with_env(CGO_ENABLED: "1") do
-      assert_equal "Hello from cgo!\n", shell_output("#{bin}/go run hello_cgo.go")
+      assert_equal "Hello from cgo!\n", shell_output("#{bin}/goplus run hello_cgo.go")
     end
   end
 end
