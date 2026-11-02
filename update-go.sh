@@ -1,5 +1,5 @@
 #!/bin/bash
-# update-go.sh <tag>: point Formula/go.rb at a go-plus release.
+# update-go.sh <tag>: point Formula/go-plus.rb at a go-plus release.
 #
 # The release's archives are named after the toolchain's VERSION file
 # (go1.27.2-plus.<os>-<arch>.tar.gz), not after the tag (v1.27.2a), so
@@ -7,7 +7,7 @@
 # without its "v": the test asserts `go version` says "(plus v<version>)".
 set -euo pipefail
 tag=${1:?usage: update-go.sh <tag, e.g. v1.27.2a>}
-f=Formula/go.rb
+f=Formula/go-plus.rb
 dir=$(mktemp -d)
 trap 'rm -rf "$dir"' EXIT
 gh release download "$tag" -R trendvidia/go -D "$dir" \
