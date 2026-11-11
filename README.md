@@ -10,7 +10,7 @@ JIT. It installs alongside Homebrew's `go`, on the same machine.
 
 ```sh
 brew install trendvidia/tap/go-plus
-goplus version   # go version go1.27.3 darwin/arm64 (plus v1.27.3d)
+goplus version   # go version go1.27.4 darwin/arm64 (plus v1.27.4)
 ```
 
 Only `goplus` is linked. The fork's real `go` and `gofmt` stay in the keg,
