@@ -1,26 +1,26 @@
 class GoPlus < Formula
   desc "Trendvidia \"plus\" fork of Go with extended -buildmode=plugin support"
   homepage "https://github.com/trendvidia/go"
-  version "1.27.3d"
+  version "1.27.4"
   license "BSD-3-Clause"
 
   # Prebuilt toolchain archives from the release. macOS is arm64-only
   # (no Intel build is published); Linux covers arm64 and x86_64.
   on_macos do
     on_arm do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3d/go1.27.3-plus.darwin-arm64.tar.gz"
-      sha256 "2fb4f42bba39941b1fc2508fc521b80271517f52c64659b258321e01a50248d0"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.4/go1.27.4-plus.darwin-arm64.tar.gz"
+      sha256 "9bc2c49f6d82534a625359780b82c77881c0c9d005379e0693b2fb03d357e80b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3d/go1.27.3-plus.linux-arm64.tar.gz"
-      sha256 "0d7b49226b7b2381f04cd28d90ae697f85041b50bc3754977a413335023f2c6a"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.4/go1.27.4-plus.linux-arm64.tar.gz"
+      sha256 "daf4aecea6cd0b4fc99f1d3d7f810d5c7f2197f8081aaf171022464cd06dc08e"
     end
     on_intel do
-      url "https://github.com/trendvidia/go/releases/download/v1.27.3d/go1.27.3-plus.linux-amd64.tar.gz"
-      sha256 "6e591953660969fc1a4d46cbed1cbdf589b0bd71896f00cb035808b3ee272e0c"
+      url "https://github.com/trendvidia/go/releases/download/v1.27.4/go1.27.4-plus.linux-amd64.tar.gz"
+      sha256 "b207eef37f062b008d4ffe0c800497d7143906cfa36a6d4b61e9cc966edeb919"
     end
   end
 
