@@ -7,7 +7,15 @@ class GoPlus < Formula
   # Prebuilt toolchain archives from the release. macOS is arm64-only
   # (no Intel build is published); Linux covers arm64 and x86_64.
   on_macos do
+    depends_on arch: :arm64
     on_arm do
+      url "https://github.com/trendvidia/go/releases/download/v1.27.4/go1.27.4-plus.darwin-arm64.tar.gz"
+      sha256 "9bc2c49f6d82534a625359780b82c77881c0c9d005379e0693b2fb03d357e80b"
+    end
+    # Never installed: depends_on above refuses an Intel Mac. `brew tap`
+    # loads every formula as each OS/arch, though, and a formula with no
+    # url on Intel macOS fails that check and aborts the whole tap.
+    on_intel do
       url "https://github.com/trendvidia/go/releases/download/v1.27.4/go1.27.4-plus.darwin-arm64.tar.gz"
       sha256 "9bc2c49f6d82534a625359780b82c77881c0c9d005379e0693b2fb03d357e80b"
     end
